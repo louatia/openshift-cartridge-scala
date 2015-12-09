@@ -4,19 +4,19 @@ PATH=${OPENSHIFT_DATA_DIR}/scala/bin/:${OPENSHIFT_DATA_DIR}/sbt/bin/:/bin/:/usr/
 PATH=$OPENSHIFT_DATA_DIR/jdk1.8.0_05/bin:$PATH
 JAVA_HOME="$OPENSHIFT_DATA_DIR/jdk/jdk1.8.0_05"
 echo "version of java"
-java -version
+#java -version
 function start {
     cd $OPENSHIFT_REPO_DIR
     nohup ./start.sh >> $OPENSHIFT_SCALA_LOG_DIR/scala.log 2>&1  &
 }
 
 function stop {
-    killall java || true
+    nohup killall java || true
 }
 
 function restart {
-    stop
-    start
+    nohup stop
+    nohup start
 }
 
 function build {
@@ -28,7 +28,7 @@ function build {
     unset GIT_WORK_TREE
 
     cd $OPENSHIFT_REPO_DIR
-    sbt compile
+    nohup sbt compile
 }
 
 function tidy {
@@ -37,7 +37,7 @@ function tidy {
     rm -rf $OPENSHIFT_TMP_DIR/*
 
     cd $OPENSHIFT_REPO_DIR
-    sbt clean
+    nohup sbt clean
 }
 
 function catchall {

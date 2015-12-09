@@ -1,18 +1,21 @@
-#!/bin/bash
-set -e
-
-VERSION=2.10.2
+#!/bin/bash -e
 SBT_VERSION=0.12.4
 
 cd ${OPENSHIFT_DATA_DIR}
+#install scala
+SCALA_VERSION=2.11.7
+echo "Downloading scala $SCALA_VERSION"
+curl -fsL http://downloads.typesafe.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz | tar xfz - -C ${OPENSHIFT_DATA_DIR}
+ln -s ${OPENSHIFT_DATA_DIR}/scala-$SCALA_VERSION scala
+export PATH=${OPENSHIFT_DATA_DIR}/scala/bin:$PATH
+echo "version of scala"
+which scala
 
-echo "Download scala $VERSION"
-curl -s -o ${OPENSHIFT_DATA_DIR}/scala-$VERSION.tgz http://www.scala-lang.org/downloads/distrib/files/scala-$VERSION.tgz 
-tar xzf scala-$VERSION.tgz
-rm -f scala-$VERSION.tgz
-ln -s ${OPENSHIFT_DATA_DIR}/scala-$VERSION scala
 
-echo "Download sbt $SBT_VERSION"
-curl -s -o  ${OPENSHIFT_DATA_DIR}/sbt.tgz http://scalasbt.artifactoryonline.com/scalasbt/sbt-native-packages/org/scala-sbt/sbt/$SBT_VERSION/sbt.tgz
-tar xzf sbt.tgz
-rm -f xzf sbt.tgz
+#install sbt
+SBT_VERSION=0.13.8
+echo "Downloading sbt $SBT_VERSION"
+curl -fsL https://dl.bintray.com/sbt/native-packages/sbt/$SBT_VERSION/sbt-$SBT_VERSION.tgz | tar xfz - -C ${OPENSHIFT_DATA_DIR}
+export PATH=${OPENSHIFT_DATA_DIR}/sbt/bin:$PATH
+echo "version of scala"
+which sbt
